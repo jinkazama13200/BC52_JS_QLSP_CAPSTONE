@@ -4,6 +4,28 @@ getProducts();
 function getProducts() {
   apiGetProducts()
     .then((response) => {
+      // if (editedProduct.length > 0) {
+      //   editedProduct.forEach((product) => {
+      //     if (response.data.id === editedProduct.id) {
+      //       product.name = response.data.name;
+      //       product.price = response.data.price;
+      //       product.screen = response.data.screen;
+      //       product.backCamera = response.data.backCamera;
+      //       product.frontCamera = response.data.frontCamera;
+      //       product.img = response.data.img;
+      //       product.desc = response.data.desc;
+      //       product.type = response.data.type;
+      //     }
+      //   });
+      // } else {
+      //   editedProduct.push(response.data);
+      //   editedProduct = editedProduct.flat(1);
+      // }
+      // editedProduct.push(response.data);
+      // editedProduct = editedProduct.flat(1);
+      let product = response.data;
+      editedProduct = product;
+      console.log(editedProduct);
       display(response.data);
     })
     .catch((error) => {
@@ -245,7 +267,7 @@ getEl("#search").onkeydown = (event) => {
 };
 
 // search using onclick function
-function searchEx1() {
+function searchProd() {
   let search = getEl("#search").value;
   search = search.trim().toLowerCase();
 
@@ -256,4 +278,40 @@ function searchEx1() {
     .catch((error) => {
       console.log(error);
     });
+}
+
+function orderBy() {
+  let tmpArray = editedProduct;
+  let tmp = {};
+
+  for (let i = 0; i < tmpArray.length; i++) {
+    for (let j = i + 1; j < tmpArray.length; j++) {
+      if (parseInt(tmpArray[i].price) < parseInt(tmpArray[j].price)) {
+        tmp = tmpArray[i];
+        tmpArray[i] = tmpArray[j];
+        tmpArray[j] = tmp;
+      }
+    }
+  }
+  editedProduct = tmpArray;
+
+  display(editedProduct);
+}
+
+function orderByDesc() {
+  let tmpArray = editedProduct;
+  let tmp = {};
+
+  for (let i = 0; i < tmpArray.length; i++) {
+    for (let j = i + 1; j < tmpArray.length; j++) {
+      if (parseInt(tmpArray[j].price) < parseInt(tmpArray[i].price)) {
+        tmp = tmpArray[j];
+        tmpArray[j] = tmpArray[i];
+        tmpArray[i] = tmp;
+      }
+    }
+  }
+  editedProduct = tmpArray;
+
+  display(editedProduct);
 }

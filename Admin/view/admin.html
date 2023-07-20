@@ -130,7 +130,7 @@
                       <span
                         class="input-group-text btn btn-success"
                         id="btnTimSP"
-                        onclick="searchEx1()"
+                        onclick="searchProd()"
                         ><i class="fa fa-search"></i
                       ></span>
                     </div>
@@ -142,8 +142,18 @@
                   <tr>
                     <th>#</th>
                     <th>Tên SP</th>
-                    <th>Giá</th>
-                    <th>Hình</th>
+                    <th id="wrapprice">
+                      Giá
+                      <span>
+                        <i
+                          onclick="orderBy()"
+                          class="fa-solid fa-arrow-up"
+                          id="SapXepTang"
+                        ></i
+                        ><i onclick="orderByDesc()" class="fa-solid fa-arrow-down" id="SapXepGiam"></i>
+                      </span>
+                    </th>
+                    <th>Hình ảnh</th>
                     <th>Mô tả</th>
 
                     <th><label>Action</label> <em class="fa fa-cog"></em></th>
@@ -211,7 +221,7 @@
                     ></span>
                   </div>
                   <input
-                    type="number"
+                    type="text"
                     name="price"
                     id="price"
                     class="form-control input-sm"
