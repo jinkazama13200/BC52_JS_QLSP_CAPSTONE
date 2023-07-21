@@ -1,0 +1,38 @@
+#logo {
+  font-size: 30px;
+}
+
+#add-cart {
+  cursor: pointer;
+}
+
+.nav-item {
+  font-weight: 500;
+  &.active {
+    .nav-link {
+      color: black;
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+  .nav-link {
+    margin: 0 25px;
+    position: relative;
+    &::after {
+      content: "";
+      background-color: black;
+      width: 0px;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      transition: 0.5s;
+    }
+    &:hover {
+      &::after {
+        width: 100%;
+      }
+    }
+  }
+}
