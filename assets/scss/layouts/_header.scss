@@ -1,15 +1,51 @@
-#logo {
+header {
+  background: rgba(244, 72, 191, 0.45);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index:2
+}
+.header-logo {
   font-size: 30px;
 }
 
-#add-cart {
-  cursor: pointer;
+.cart-icon {
+  position: absolute;
+  display: inline-block;
+  right: 100px;
+  top: 22px;
+  z-index: 1;
+
+  @include responsive("small") {
+    right: 105px;
+  }
+
+  #shopping {
+    cursor: pointer;
+    font-size: 20px;
+  }
+  #quantity {
+    font-size: $fs-1;
+    left: 10px;
+    position: absolute;
+    background-color: red;
+    width: 30px;
+    bottom: 10px;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    border-radius: 50px;
+  }
 }
 
 .nav-item {
   font-weight: 500;
-  &.active {
-    .nav-link {
+  .nav-link {
+    &.active {
       color: black;
       &::after {
         width: 100%;

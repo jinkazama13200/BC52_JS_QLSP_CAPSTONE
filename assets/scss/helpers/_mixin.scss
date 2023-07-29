@@ -1,0 +1,29 @@
+@mixin responsive($screen) {
+  @if (map-has-key($map: $Breakpoints, $key: $screen)) {
+    // Screen hợp lệ, có trong mảng Breakpoints
+    // Lấy ra giá trị của biến screen trong mảng breakpoints
+    $width: map-get(
+      $map: $Breakpoints,
+      $key: $screen,
+    );
+    @media (min-width: $width) {
+      @content;
+    }
+  } @else {
+    @warn "Invalid Screen";
+  }
+}
+
+@mixin mobile($screen) {
+  @if (map-has-key($map: $Breakpoints, $key: $screen)) {
+    $width: map-get(
+      $map: $Breakpoints,
+      $key: $screen,
+    );
+    @media (max-width: $width) {
+      @content;
+    }
+  } @else {
+    @warn "Invalid Screen";
+  }
+}

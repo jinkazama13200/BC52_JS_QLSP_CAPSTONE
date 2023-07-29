@@ -1,10 +1,13 @@
+@import "./helpers/variables";
+
+@import "./helpers/mixin";
+
 @import "./base/reset";
 
 @import "../scss/layouts/header";
 
 @import "../scss/layouts/body";
 
-@import "./helpers/variables";
-
 @import "../scss/layouts/product";
 
+@import "./layouts/cartitem";

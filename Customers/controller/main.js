@@ -1,11 +1,20 @@
-let shoppingCart = {};
-
+let cart = [];
 getProducts();
+
+initCart();
+
+async function initCart() {
+  let data = await apiGetProducts();
+  cart = data;
+  cart = JSON.parse(localStorage.getItem("cart"));
+  displayCart(cart);
+}
 
 function getProducts() {
   apiGetProducts()
     .then((response) => {
-      display(response.data);
+      let data = response.data;
+      display(data);
     })
     .catch((error) => {
       console.log(error);
@@ -29,10 +38,10 @@ function display(products) {
 
     return (
       result +
-      `<div class="product_item col-4">
+      `<div class="product_item col-12 col-sm-12 col-md-6 col-xl-4">
         <div class="product_box">
         <div class="card-header">
-        <img src="${product.img}" width="200px" height="200px"/>
+        <img src="${product.img}" width="200px" height="100%"/>
         </div>
         <div class="card-body">
         <h3 class="product_name">
@@ -54,7 +63,9 @@ function display(products) {
           <p>Front Camera: ${product.frontCamera}</p>
           <a href="#">Click for more Infomation</a>
           </div>
-        <button id="cart-btn" class="btn">Add to cart</button>
+        <button onclick="addCart('${
+          product.id
+        }')" id="cart-btn" class="btn">Add to cart</button>
         </div>
         </div>
       </div>
@@ -67,4 +78,175 @@ function display(products) {
 // Utils
 function getEl(n) {
   return document.querySelector(n);
+}
+
+// ------------------------------------------------------
+
+let openShopping = getEl("#shopping");
+let closeShopping = getEl("#close-shopping");
+let body = getEl("body");
+let quantity = getEl("#quantity");
+let total = getEl("#total");
+let overlay = getEl(".shopping-cart-overlay");
+
+// find brand by onchange function
+function selectBrands() {
+  let select = getEl("#selectBrand").value;
+  apiGetProducts().then((response) => {
+    let data = response.data;
+    data = data.filter((value) => {
+      if (select === "default") {
+        return data;
+      } else {
+        return value.type === select;
+      }
+    });
+    display(data);
+    console.log(data);
+  });
+}
+
+openShopping.addEventListener("click", () => {
+  body.classList.add("active");
+});
+closeShopping.addEventListener("click", () => {
+  body.classList.remove("active");
+});
+overlay.addEventListener("click", () => {
+  body.classList.remove("active");
+});
+
+// find item by id
+let findItemById = (cart, id) => {
+  let n;
+  cart.forEach((value) => {
+    if (value.id === id) {
+      n = value;
+      return;
+    }
+  });
+  return n;
+};
+
+// calc total
+function calcSubTotal(cart) {
+  let total = 0;
+  cart.forEach((value) => {
+    total += value.price * value.quantity;
+  });
+  return total;
+}
+
+// cart count function
+function cartCount(cart) {
+  let cartCount = 0;
+  cart.forEach((value) => {
+    cartCount += value.quantity;
+  });
+  return cartCount;
+}
+
+// add to cart
+function addCart(productId) {
+  apiGetProductById(productId)
+    .then((response) => {
+      let data = response.data;
+      let cartItem = new Cartitem(data.id, data.name, data.price, data.img, 1);
+      let newCartItem = findItemById(cart, cartItem.id);
+
+      if (newCartItem == null) {
+        cart.push(cartItem);
+      } else {
+        newCartItem.quantity++;
+      }
+      displayCart(cart);
+      console.log(cart);
+      localStorage.setItem("cart", JSON.stringify(cart));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+// display cart
+function displayCart(cart) {
+  let showCart = cart.reduce((result, value) => {
+    let product = new Cartitem(
+      value.id,
+      value.name,
+      value.price,
+      value.img,
+      value.quantity
+    );
+
+    return (
+      result +
+      `
+      
+       <tr class="cart_item">
+        <td><img src="${product.img}" width="100px" height="100%" /></td>
+        <td>${product.name}</td>
+        <td>${product.price.toLocaleString()}</td>
+        <td>
+        <button onclick="descBtn('${product.id}')" class="desc-btn">-</button>
+        <span id="count">${product.quantity}</span>
+        <button onclick="inscBtn('${product.id}')" class="insc-btn">+</button>
+        </td>
+        <td id="remove">
+         <i onclick="removeCart('${
+           product.id
+         }')" id="recycle" class="fa-solid fa-trash"></i>
+        </td>
+       </tr>
+      
+      
+      `
+    );
+  }, "");
+
+  let subTotal = calcSubTotal(cart);
+  quantity.innerHTML = cartCount(cart);
+  getEl("#cart-item-list").innerHTML = showCart;
+  total.innerText = subTotal.toLocaleString() + " VND";
+}
+
+// change quantity function
+// +
+function inscBtn(productId) {
+  let cartItem = findItemById(cart, productId);
+  if (cartItem) {
+    cartItem.quantity++;
+  }
+  displayCart(cart);
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+//-
+function descBtn(productId) {
+  let cartItem = findItemById(cart, productId);
+  if (cartItem) {
+    cartItem.quantity--;
+  }
+  cart = cart.filter((value) => {
+    return value.quantity != 0;
+  });
+
+  displayCart(cart);
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+//remove cart function
+function removeCart(productId) {
+  cart = cart.filter((value) => {
+    return value.id != productId;
+  });
+
+  displayCart(cart);
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+//clear cart function
+function clearCart() {
+  cart = [];
+  displayCart(cart);
+  localStorage.setItem("cart", JSON.stringify(cart));
 }

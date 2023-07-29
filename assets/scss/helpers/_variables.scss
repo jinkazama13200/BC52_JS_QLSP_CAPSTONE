@@ -30,8 +30,10 @@ $fw-3: 700;
 
 // Định nghĩa BreakPoints
 $Breakpoints: (
+  "extra-small": 575px,
   "small": 576px,
   "medium": 768px,
   "large": 992px,
   "extra-large": 1200px,
+  "extra-extra-large": 1400px,
 );

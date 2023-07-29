@@ -1,0 +1,188 @@
+.cart_item {
+  img {
+    @include responsive("small") {
+      width: 50px;
+    }
+    @include responsive("medium") {
+      width: 70px;
+    }
+    @include responsive("large") {
+      width: 100px;
+    }
+    @include mobile("extra-small") {
+      width: 50px;
+    }
+  }
+
+  font-size: $fs-2;
+  text-align: center;
+  color: white;
+  font-weight: $fw-3;
+  @include responsive("small") {
+    font-size: $fs-1;
+  }
+  @include responsive("medium") {
+    font-size: $fs-2;
+  }
+  @include mobile("extra-small") {
+    font-size: $fs-1;
+  }
+
+  &:hover {
+    background-color: rgba(128, 128, 128, 0.521);
+  }
+
+  #remove {
+    text-align: center;
+    #recycle {
+      margin-right: 20px;
+      color: rgb(255, 39, 39);
+      cursor: pointer;
+    }
+  }
+
+  .desc-btn {
+    border: 1px solid black;
+    background-color: white;
+    padding: 0 10px;
+    border-radius: 15px;
+    text-align: center;
+    transition: 0.3s;
+    &:hover {
+      background-color: black;
+      color: white;
+      border: 1px solid white;
+    }
+  }
+  .insc-btn {
+    border: 1px solid black;
+    background-color: white;
+    padding: 0 10px;
+    border-radius: 15px;
+    text-align: center;
+    transition: 0.3s;
+    &:hover {
+      background-color: black;
+      color: white;
+      border: 1px solid white;
+    }
+  }
+  #count {
+    margin: 0 5px;
+  }
+}
+
+#table-cart-item {
+  width: 100%;
+}
+
+#empty-text {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  color: rgba(255, 255, 255, 0.534);
+}
+
+.cart {
+  .cart-content {
+    position: fixed;
+    right: -1200px;
+    top: 73px;
+    background-color: rgb(20, 20, 20);
+    width: 40%;
+    height: 100%;
+    z-index: 2;
+    transition: 0.2s;
+
+    @include responsive("small") {
+      width: 80%;
+    }
+    @include responsive("large") {
+      width: 60%;
+    }
+    @include responsive("extra-extra-large") {
+      width: 40%;
+    }
+
+    // response for moblie (max-width:575px)
+    @include mobile("extra-small") {
+      width: 100%;
+    }
+
+    .title-cart {
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.397);
+      #close-shopping {
+        margin-right: 10px;
+        font-size: 30px;
+        cursor: pointer;
+      }
+    }
+    .cart-footer {
+      height: calc(100% - 70vh);
+      width: 100%;
+      border-top: 1px solid rgba(255, 255, 255, 0.397);
+      padding: 20px;
+
+      .purchase {
+        margin-right: 20px;
+        padding: 10px 60px;
+        font-size: $fs-3;
+        margin-top: 10px;
+        @include responsive("small") {
+          font-size: $fs-2;
+        }
+        @include responsive("medium") {
+          font-size: $fs-3;
+        }
+
+        @include mobile("extra-small") {
+          font-size: $fs-2;
+        }
+      }
+      .clear {
+        padding: 10px 30px;
+        font-size: $fs-3;
+        margin-top: 10px;
+        @include responsive("small") {
+          font-size: $fs-2;
+        }
+        @include responsive("medium") {
+          font-size: $fs-3;
+        }
+
+        @include mobile("extra-small") {
+          font-size: $fs-2;
+        }
+      }
+    }
+    .cart-overflow {
+      overflow: auto;
+      height: 600px;
+    }
+  }
+  .shopping-cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    z-index: -1;
+    background-color: rgba(0, 0, 0, 0.568);
+  }
+}
+.active {
+  .cart-content {
+    right: 0px;
+  }
+  .shopping-cart-overlay {
+    opacity: 1;
+    z-index: 0;
+  }
+}

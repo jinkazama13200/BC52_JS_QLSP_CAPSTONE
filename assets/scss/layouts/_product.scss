@@ -1,10 +1,50 @@
 .product {
-  margin-top: 50px;
+  margin-top: 100px;
+
+  .dropdown {
+    margin-bottom: 20px;
+    #selectBrand {
+      margin-bottom: 50px;
+      padding: 5px 30px;
+
+      @include responsive("small") {
+        width: 40%;
+      }
+
+      @include responsive("extra-large") {
+        width: 20%;
+      }
+      @include responsive("extra-extra-large") {
+        width: 20%;
+      }
+    }
+  }
+}
+.navbar-nav {
+  text-align: center;
 }
 
 #product-list {
   .product_item {
     padding: 20px 50px;
+    @include responsive("small") {
+      padding: 0px 100px;
+      margin-bottom: 50px;
+    }
+    @include responsive("medium") {
+      padding: 0px 20px;
+    }
+    @include responsive("large") {
+      padding: 0px 50px;
+    }
+    @include responsive("extra-large") {
+      padding: 0px 30px;
+    }
+    @include mobile("extra-small") {
+      padding: 0px 50px;
+      margin-bottom: 50px;
+    }
+
     .product_box {
       background-color: white;
       border-radius: $border-2;
