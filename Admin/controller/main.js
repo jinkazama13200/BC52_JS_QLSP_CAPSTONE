@@ -1,31 +1,16 @@
 let editedProduct = {};
+// Utils
+function getEl(n) {
+  return document.querySelector(n);
+}
+
 getProducts();
 
 function getProducts() {
   apiGetProducts()
     .then((response) => {
-      // if (editedProduct.length > 0) {
-      //   editedProduct.forEach((product) => {
-      //     if (response.data.id === editedProduct.id) {
-      //       product.name = response.data.name;
-      //       product.price = response.data.price;
-      //       product.screen = response.data.screen;
-      //       product.backCamera = response.data.backCamera;
-      //       product.frontCamera = response.data.frontCamera;
-      //       product.img = response.data.img;
-      //       product.desc = response.data.desc;
-      //       product.type = response.data.type;
-      //     }
-      //   });
-      // } else {
-      //   editedProduct.push(response.data);
-      //   editedProduct = editedProduct.flat(1);
-      // }
-      // editedProduct.push(response.data);
-      // editedProduct = editedProduct.flat(1);
       let product = response.data;
       editedProduct = product;
-      console.log(editedProduct);
       display(response.data);
     })
     .catch((error) => {
@@ -147,8 +132,8 @@ function display(products) {
       `<tr>
       <td>${index + 1}</td>
       <td>${product.name}</td>
-      <td>${product.price}</td>
-      <td><img src="${product.img}" width="100px" height="100px"/></td>
+      <td>${product.price.toLocaleString()}</td>
+      <td><img src="${product.img}" width="100px" height="100%"/></td>
       <td>${product.desc}</td>
       <td>
       <button class="btn btn-primary" onclick="editProduct('${
@@ -195,56 +180,63 @@ function isRequired(value) {
   }
 }
 
+// check number
+function isNumber(value) {
+  if (isNaN(value)) {
+    return false;
+  }
+  return true;
+}
+
 // validation
 function validate(input) {
   let isValid = true;
   if (!isRequired(input.name)) {
     isValid = false;
-    getEl("#tbName").innerHTML = "Empty";
+    getEl("#tbName").innerHTML = "(*)Empty";
     getEl("#tbName").style.display = "block";
   }
   if (!isRequired(input.price)) {
     isValid = false;
-    getEl("#tbGia").innerHTML = "Empty";
+    getEl("#tbGia").innerHTML = "(*)Empty";
+    getEl("#tbGia").style.display = "block";
+  } else if (!isNumber(+input.price)) {
+    isValid = false;
+    getEl("#tbGia").innerHTML = "(*)Must be a Number";
     getEl("#tbGia").style.display = "block";
   }
   if (!isRequired(input.screen)) {
     isValid = false;
-    getEl("#tbScreen").innerHTML = "Empty";
+    getEl("#tbScreen").innerHTML = "(*)Empty";
     getEl("#tbScreen").style.display = "block";
   }
   if (!isRequired(input.backCamera)) {
     isValid = false;
-    getEl("#tbbackCamera").innerHTML = "Empty";
+    getEl("#tbbackCamera").innerHTML = "(*)Empty";
     getEl("#tbbackCamera").style.display = "block";
   }
   if (!isRequired(input.frontCamera)) {
     isValid = false;
-    getEl("#tbfrontCamera").innerHTML = "Empty";
+    getEl("#tbfrontCamera").innerHTML = "(*)Empty";
     getEl("#tbfrontCamera").style.display = "block";
   }
   if (!isRequired(input.img)) {
     isValid = false;
-    getEl("#tbImg").innerHTML = "Empty";
+    getEl("#tbImg").innerHTML = "(*)Empty";
     getEl("#tbImg").style.display = "block";
   }
   if (!isRequired(input.desc)) {
     isValid = false;
-    getEl("#tbMota").innerHTML = "Empty";
+    getEl("#tbMota").innerHTML = "(*)Empty";
     getEl("#tbMota").style.display = "block";
   }
   if (!isRequired(input.type)) {
     isValid = false;
-    getEl("#tbType").innerHTML = "Empty";
+    getEl("#tbType").innerHTML = "(*)Empty";
     getEl("#tbType").style.display = "block";
   }
 
   return isValid;
-}
-
-// Utils
-function getEl(n) {
-  return document.querySelector(n);
 }
 
 getEl("#btnThem").onclick = function () {
@@ -315,3 +307,7 @@ function orderByDesc() {
 
   display(editedProduct);
 }
+
+getEl("#btnDong").onclick = () => {
+  resetForm();
+};
