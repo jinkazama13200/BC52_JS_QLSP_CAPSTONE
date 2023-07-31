@@ -4,16 +4,18 @@ getProducts();
 initCart();
 
 function initCart() {
-  apiGetProducts()
-    .then((response) => {
-      let data = response.data;
-      cart = data;
-      cart = JSON.parse(localStorage.getItem("cart"));
-      displayCart(cart);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  cart = cart.map((value) => {
+    return new Cartitem(
+      value.id,
+      value.name,
+      value.price,
+      value.img,
+      value.quantity
+    );
+  });
+  cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  displayCart(cart);
 }
 
 function getProducts() {
@@ -91,8 +93,6 @@ function getEl(n) {
 let openShopping = getEl("#shopping");
 let closeShopping = getEl("#close-shopping");
 let body = getEl("body");
-let quantity = getEl("#quantity");
-let total = getEl("#total");
 let overlay = getEl(".shopping-cart-overlay");
 
 // find brand by onchange function
@@ -123,9 +123,9 @@ overlay.addEventListener("click", () => {
 });
 
 // find item by id
-let findItemById = (cart, id) => {
+let findItemById = (cartItem, id) => {
   let n;
-  cart.forEach((value) => {
+  cartItem.forEach((value) => {
     if (value.id === id) {
       n = value;
       return;
@@ -153,25 +153,21 @@ function cartCount(cart) {
 }
 
 // add to cart
-function addCart(productId) {
-  apiGetProductById(productId)
-    .then((response) => {
-      let data = response.data;
-      let cartItem = new Cartitem(data.id, data.name, data.price, data.img, 1);
-      let newCartItem = findItemById(cart, cartItem.id);
+async function addCart(productId) {
+  apiGetProductById(productId).then((response) => {
+    let { id, name, price, img } = response.data;
+    let cartItem = new Cartitem(id, name, price, img, 1);
+    let newCartItem = findItemById(cart, cartItem.id);
 
-      if (newCartItem == null) {
-        cart.push(cartItem);
-      } else {
-        newCartItem.quantity++;
-      }
-      displayCart(cart);
-      console.log(cart);
-      localStorage.setItem("cart", JSON.stringify(cart));
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+    if (newCartItem == null) {
+      cart.push(cartItem);
+    } else {
+      newCartItem.quantity++;
+    }
+    displayCart(cart);
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+  });
 }
 
 // display cart
@@ -211,9 +207,11 @@ function displayCart(cart) {
   }, "");
 
   let subTotal = calcSubTotal(cart);
+  let quantity = getEl("#quantity");
+  let total = getEl("#total");
   quantity.innerHTML = cartCount(cart);
-  getEl("#cart-item-list").innerHTML = showCart;
   total.innerText = subTotal.toLocaleString() + " VND";
+  getEl("#cart-item-list").innerHTML = showCart;
 }
 
 // change quantity function
