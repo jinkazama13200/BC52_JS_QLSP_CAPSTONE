@@ -3,11 +3,17 @@ getProducts();
 
 initCart();
 
-async function initCart() {
-  let data = await apiGetProducts();
-  cart = data;
-  cart = JSON.parse(localStorage.getItem("cart"));
-  displayCart(cart);
+function initCart() {
+  apiGetProducts()
+    .then((response) => {
+      let data = response.data;
+      cart = data;
+      cart = JSON.parse(localStorage.getItem("cart"));
+      displayCart(cart);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 function getProducts() {
