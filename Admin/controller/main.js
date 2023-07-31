@@ -6,12 +6,14 @@ function getEl(n) {
 
 getProducts();
 
+let isSubmitted = false;
+
 function getProducts() {
   apiGetProducts()
     .then((response) => {
       let product = response.data;
       editedProduct = product;
-      display(response.data);
+      display(editedProduct);
     })
     .catch((error) => {
       console.log(error);
@@ -21,6 +23,7 @@ function getProducts() {
 // add product function
 function addProduct() {
   // DOM
+  isSubmitted = true;
   let product = {
     name: getEl("#name").value,
     price: getEl("#price").value,
@@ -37,8 +40,14 @@ function addProduct() {
   apiCreateProduct(product)
     .then(() => {
       $("#myModal").modal("hide");
-
       resetForm();
+      Swal.fire({
+        width: 400,
+        icon: "success",
+        title: "Create Successfully.",
+        showConfirmButton: false,
+        timer: 2000,
+      });
 
       return getProducts();
     })
@@ -49,8 +58,9 @@ function addProduct() {
 
 // update product function
 function updateProduct() {
+  isSubmitted = true;
   // DOM
-  let newProduct = {
+  let product = {
     name: getEl("#name").value,
     price: getEl("#price").value,
     screen: getEl("#screen").value,
@@ -60,13 +70,19 @@ function updateProduct() {
     desc: getEl("#mota").value,
     type: getEl("#hangSP").value,
   };
-  let isValid = validate(newProduct);
+  let isValid = validate(product);
   if (!isValid) return;
 
-  apiUpdateProduct(editedProduct.id, newProduct)
+  apiUpdateProduct(editedProduct.id, product)
     .then(() => {
+      Swal.fire({
+        width: 400,
+        icon: "success",
+        title: "Update Successfully.",
+        showConfirmButton: false,
+        timer: 2000,
+      });
       $("#myModal").modal("hide");
-
       resetForm();
 
       return getProducts();
@@ -103,13 +119,28 @@ function editProduct(productId) {
 
 // remove product function
 function removeProduct(productId) {
-  apiDeleteProduct(productId)
-    .then(() => {
-      return getProducts();
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  Swal.fire({
+    icon: "warning",
+    title: "Are you sure want to delete?",
+    confirmButtonText: "Yes",
+    showCancelButton: true,
+  }).then((willDelete) => {
+    if (willDelete.isConfirmed) {
+      Swal.fire({
+        icon: "success",
+        title: "Deleted.",
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      apiDeleteProduct(productId)
+        .then(() => {
+          return getProducts();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  });
 }
 
 // display products
@@ -151,6 +182,7 @@ function display(products) {
 
 // resetform
 function resetForm() {
+  isSubmitted = false;
   getEl("#name").value = "";
   getEl("#price").value = "";
   getEl("#screen").value = "";
@@ -188,12 +220,26 @@ function isNumber(value) {
   return true;
 }
 
+// check product name if already created before
+function checkName(value) {
+  for (let i = 0; i < editedProduct.length; i++) {
+    if (editedProduct[i].name === value) {
+      return false;
+    }
+  }
+  return true;
+}
+
 // validation
 function validate(input) {
   let isValid = true;
   if (!isRequired(input.name)) {
     isValid = false;
     getEl("#tbName").innerHTML = "(*)Empty";
+    getEl("#tbName").style.display = "block";
+  } else if (!checkName(input.name)) {
+    isValid = false;
+    getEl("#tbName").innerHTML = "(*)This product name is already created.";
     getEl("#tbName").style.display = "block";
   }
   if (!isRequired(input.price)) {
@@ -202,7 +248,7 @@ function validate(input) {
     getEl("#tbGia").style.display = "block";
   } else if (!isNumber(+input.price)) {
     isValid = false;
-    getEl("#tbGia").innerHTML = "(*)Must be a Number";
+    getEl("#tbGia").innerHTML = "(*)Must be a Number.";
     getEl("#tbGia").style.display = "block";
   }
   if (!isRequired(input.screen)) {
@@ -245,6 +291,85 @@ getEl("#btnThem").onclick = function () {
   getEl("#btnCapNhat").style.display = "none";
 };
 
+getEl("#btnDong").onclick = () => {
+  resetForm();
+};
+
+// oninput
+getEl("#name").oninput = (event) => {
+  if (!isSubmitted) return;
+  if (event.target.value) {
+    getEl("#tbName").innerHTML = "";
+    getEl("#tbName").style.display = "block";
+  } else {
+    getEl("#tbName").innerHTML = "(*)Empty";
+  }
+};
+getEl("#price").oninput = (event) => {
+  if (!isSubmitted) return;
+  if (event.target.value) {
+    getEl("#tbGia").innerHTML = "";
+    getEl("#tbGia").style.display = "block";
+  } else {
+    getEl("#tbGia").innerHTML = "(*)Empty";
+  }
+};
+getEl("#screen").oninput = (event) => {
+  if (!isSubmitted) return;
+  if (event.target.value) {
+    getEl("#tbScreen").innerHTML = "";
+    getEl("#tbScreen").style.display = "block";
+  } else {
+    getEl("#tbScreen").innerHTML = "(*)Empty";
+  }
+};
+getEl("#backCamera").oninput = (event) => {
+  if (!isSubmitted) return;
+  if (event.target.value) {
+    getEl("#tbbackCamera").innerHTML = "";
+    getEl("#tbbackCamera").style.display = "block";
+  } else {
+    getEl("#tbbackCamera").innerHTML = "(*)Empty";
+  }
+};
+getEl("#frontCamera").oninput = (event) => {
+  if (!isSubmitted) return;
+  if (event.target.value) {
+    getEl("#tbfrontCamera").innerHTML = "";
+    getEl("#tbfrontCamera").style.display = "block";
+  } else {
+    getEl("#tbfrontCamera").innerHTML = "(*)Empty";
+  }
+};
+getEl("#image").oninput = (event) => {
+  if (!isSubmitted) return;
+  if (event.target.value) {
+    getEl("#tbImg").innerHTML = "";
+    getEl("#tbImg").style.display = "block";
+  } else {
+    getEl("#tbImg").innerHTML = "(*)Empty";
+  }
+};
+getEl("#mota").oninput = (event) => {
+  if (!isSubmitted) return;
+  if (event.target.value) {
+    getEl("#tbMota").innerHTML = "";
+    getEl("#tbMota").style.display = "block";
+  } else {
+    getEl("#tbMota").innerHTML = "(*)Empty";
+  }
+};
+getEl("#hangSP").oninput = (event) => {
+  if (!isSubmitted) return;
+  if (event.target.value) {
+    getEl("#tbType").innerHTML = "";
+    getEl("#tbType").style.display = "block";
+  } else {
+    getEl("#tbType").innerHTML = "(*)Empty";
+  }
+};
+// ------------------------------------------------
+
 // search using onkeypress or onkeydown function
 getEl("#search").onkeydown = (event) => {
   if (event.key !== "Enter") return;
@@ -286,6 +411,8 @@ function orderBy() {
     }
   }
   editedProduct = tmpArray;
+  getEl("#SapXepTang").style.display = "none";
+  getEl("#SapXepGiam").style.display = "block";
 
   display(editedProduct);
 }
@@ -304,10 +431,8 @@ function orderByDesc() {
     }
   }
   editedProduct = tmpArray;
+  getEl("#SapXepGiam").style.display = "none";
+  getEl("#SapXepTang").style.display = "block";
 
   display(editedProduct);
 }
-
-getEl("#btnDong").onclick = () => {
-  resetForm();
-};
