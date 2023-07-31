@@ -236,17 +236,51 @@ function descBtn(productId) {
 
 //remove cart function
 function removeCart(productId) {
-  cart = cart.filter((value) => {
-    return value.id != productId;
+  Swal.fire({
+    title: "Remove, are you sure?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Yes",
+  }).then((willDelete) => {
+    if (willDelete.isConfirmed) {
+      Swal.fire({
+        title: "Remove Successfully.",
+        icon: "success",
+      });
+      cart = cart.filter((value) => {
+        return value.id != productId;
+      });
+      displayCart(cart);
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
   });
-
-  displayCart(cart);
-  localStorage.setItem("cart", JSON.stringify(cart));
 }
 
 //clear cart function
 function clearCart() {
   cart = [];
+  displayCart(cart);
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+//buy function
+function buy() {
+  if (cart.length > 0) {
+    Swal.fire({
+      title: "Thanks For Shopping!!!",
+      text: "Have a nice day.",
+      icon: "success",
+      showConfirmButton: false,
+      timer: 2000,
+    });
+    cart = [];
+  } else {
+    Swal.fire({
+      title: "Your Cart Is Empty.",
+      text: 'Add item to cart and click "Purchase".',
+      icon: "error",
+    });
+  }
   displayCart(cart);
   localStorage.setItem("cart", JSON.stringify(cart));
 }
