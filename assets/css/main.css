@@ -237,10 +237,14 @@ header {
   color: white;
   font-weight: 700;
 }
+.cart_item img {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
 @media (min-width: 576px) {
   .cart_item img {
     width: 50px;
-    height: 100px;
+    height: 50px;
     -o-object-fit: cover;
        object-fit: cover;
   }
@@ -248,7 +252,7 @@ header {
 @media (min-width: 768px) {
   .cart_item img {
     width: 70px;
-    height: 100px;
+    height: 70px;
     -o-object-fit: cover;
        object-fit: cover;
   }
@@ -256,12 +260,15 @@ header {
 @media (min-width: 992px) {
   .cart_item img {
     width: 100px;
+    height: 100px;
+    -o-object-fit: cover;
+       object-fit: cover;
   }
 }
 @media (max-width: 575px) {
   .cart_item img {
     width: 50px;
-    height: 100px;
+    height: 50px;
     -o-object-fit: cover;
        object-fit: cover;
   }
