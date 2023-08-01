@@ -4,15 +4,6 @@ getProducts();
 initCart();
 
 function initCart() {
-  cart = cart.map((value) => {
-    return new Cartitem(
-      value.id,
-      value.name,
-      value.price,
-      value.img,
-      value.quantity
-    );
-  });
   cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   displayCart(cart);

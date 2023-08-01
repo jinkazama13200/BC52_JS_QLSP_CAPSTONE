@@ -11,6 +11,8 @@
     }
     @include mobile("extra-small") {
       width: 50px;
+      height: 100%;
+      object-fit: cover;
     }
   }
 
@@ -76,14 +78,6 @@
   width: 100%;
 }
 
-#empty-text {
-  position: absolute;
-  left: 50%;
-  top: 40%;
-  transform: translate(-50%, -50%);
-  color: rgba(255, 255, 255, 0.534);
-}
-
 .cart {
   .cart-content {
     position: fixed;
@@ -124,8 +118,6 @@
       }
     }
     .cart-footer {
-      height: calc(100% - 70vh);
-      width: 100%;
       border-top: 1px solid rgba(255, 255, 255, 0.397);
       padding: 20px;
 
@@ -142,7 +134,7 @@
         }
 
         @include mobile("extra-small") {
-          font-size: $fs-2;
+          font-size: $fs-1;
         }
       }
       .clear {
@@ -157,13 +149,17 @@
         }
 
         @include mobile("extra-small") {
-          font-size: $fs-2;
+          font-size: $fs-1;
         }
       }
     }
     .cart-overflow {
       overflow: auto;
       height: 600px;
+
+      @include mobile("extra-small") {
+        height: 550px;
+      }
     }
   }
   .shopping-cart-overlay {
