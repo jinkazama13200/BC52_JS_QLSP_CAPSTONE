@@ -3,12 +3,12 @@
     @include responsive("small") {
       width: 50px;
       height: 100px;
-
+      object-fit: cover;
     }
     @include responsive("medium") {
       width: 70px;
       height: 100px;
-
+      object-fit: cover;
     }
     @include responsive("large") {
       width: 100px;
@@ -16,7 +16,7 @@
     @include mobile("extra-small") {
       width: 50px;
       height: 100px;
-    
+      object-fit: cover;
     }
   }
 

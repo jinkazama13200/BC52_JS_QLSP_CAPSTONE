@@ -241,12 +241,16 @@ header {
   .cart_item img {
     width: 50px;
     height: 100px;
+    -o-object-fit: cover;
+       object-fit: cover;
   }
 }
 @media (min-width: 768px) {
   .cart_item img {
     width: 70px;
     height: 100px;
+    -o-object-fit: cover;
+       object-fit: cover;
   }
 }
 @media (min-width: 992px) {
@@ -258,6 +262,8 @@ header {
   .cart_item img {
     width: 50px;
     height: 100px;
+    -o-object-fit: cover;
+       object-fit: cover;
   }
 }
 @media (min-width: 576px) {
