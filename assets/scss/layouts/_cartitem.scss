@@ -11,7 +11,6 @@
     }
     @include mobile("extra-small") {
       width: 50px;
-      height: 100%;
       object-fit: cover;
     }
   }

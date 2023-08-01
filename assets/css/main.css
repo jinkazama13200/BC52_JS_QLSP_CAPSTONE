@@ -255,7 +255,6 @@ header {
 @media (max-width: 575px) {
   .cart_item img {
     width: 50px;
-    height: 100%;
     -o-object-fit: cover;
        object-fit: cover;
   }
