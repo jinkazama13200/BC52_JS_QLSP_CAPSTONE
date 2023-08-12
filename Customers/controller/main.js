@@ -179,7 +179,7 @@ function displayCart(cart) {
         <td><img src="${product.img}" width="100px" height="100%" /></td>
         <td>${product.name}</td>
         <td>${product.price.toLocaleString()}</td>
-        <td>
+        <td width="30%">
         <button onclick="descBtn('${product.id}')" class="desc-btn">-</button>
         <span id="count">${product.quantity}</span>
         <button onclick="inscBtn('${product.id}')" class="insc-btn">+</button>
