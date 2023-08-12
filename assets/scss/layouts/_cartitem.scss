@@ -1,26 +1,26 @@
 .cart_item {
   img {
-    object-fit: cover;
+    object-fit: contain;
 
     @include responsive("small") {
       width: 50px;
       height: 50px;
-      object-fit: cover;
+      object-fit: contain;
     }
     @include responsive("medium") {
       width: 70px;
       height: 70px;
-      object-fit: cover;
+      object-fit: contain;
     }
     @include responsive("large") {
       width: 100px;
       height: 100px;
-      object-fit: cover;
+      object-fit: contain;
     }
     @include mobile("extra-small") {
       width: 50px;
       height: 50px;
-      object-fit: cover;
+      object-fit: contain;
     }
   }
 
@@ -79,6 +79,7 @@
   }
   #count {
     margin: 0 5px;
+    padding: 20px 20px;
   }
 }
 
