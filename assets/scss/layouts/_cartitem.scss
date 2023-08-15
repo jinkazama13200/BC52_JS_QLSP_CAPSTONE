@@ -166,6 +166,10 @@
       overflow: auto;
       height: 600px;
 
+      @include responsive("medium") {
+        height: 450px;
+      }
+
       @include mobile("extra-small") {
         height: 550px;
       }
