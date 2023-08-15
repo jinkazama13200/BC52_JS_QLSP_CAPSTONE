@@ -169,10 +169,6 @@
       @include responsive("extra-large") {
         height: 500px;
       }
-      @include responsive("extra-extra-large") {
-        height: 600px;
-      }
-
       @include mobile("extra-small") {
         height: 550px;
       }
