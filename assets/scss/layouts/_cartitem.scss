@@ -164,10 +164,10 @@
     }
     .cart-overflow {
       overflow: auto;
-      height: 600px;
+      height: 450px;
 
-      @include responsive("medium") {
-        height: 450px;
+      @include responsive("extra-large") {
+        height: 600px;
       }
 
       @include mobile("extra-small") {

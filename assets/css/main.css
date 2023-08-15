@@ -424,7 +424,12 @@ header {
 }
 .cart .cart-content .cart-overflow {
   overflow: auto;
-  height: 600px;
+  height: 450px;
+}
+@media (min-width: 1200px) {
+  .cart .cart-content .cart-overflow {
+    height: 600px;
+  }
 }
 @media (max-width: 575px) {
   .cart .cart-content .cart-overflow {
