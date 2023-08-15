@@ -426,7 +426,7 @@ header {
   overflow: auto;
   height: 450px;
 }
-@media (min-width: 1200px) {
+@media (min-width: 1400px) {
   .cart .cart-content .cart-overflow {
     height: 600px;
   }
