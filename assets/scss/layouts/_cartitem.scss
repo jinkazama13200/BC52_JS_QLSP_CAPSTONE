@@ -166,6 +166,9 @@
       overflow: auto;
       height: 450px;
 
+      @include responsive("extra-large") {
+        height: 500px;
+      }
       @include responsive("extra-extra-large") {
         height: 600px;
       }
